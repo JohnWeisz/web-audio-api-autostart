@@ -41,3 +41,7 @@ By default, the button will be shown near immediately if required. To attempt to
 ```html
 <script src="autostart.js" data-timeout="4000"></script>
 ```
+
+## Known Issues
+
+`web-audio-api-autostart` makes repeated attempts at calling `AudioContext.resume()` to try to avoid having to show the button. This might spam some warnings into the console.
