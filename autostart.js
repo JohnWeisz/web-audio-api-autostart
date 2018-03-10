@@ -16,34 +16,34 @@ if (typeof AudioContext !== "undefined")
             {
                 return audioCtx;
             }
-            
+
             // It could be that 'new AudioContext()' is already called in response to a user triggered action, in which case we don't
             // need to show an initializer toast at all. Try doing this first.
             audioCtx.resume();
-			
-			if (audioCtx.state === "suspended")
-			{
-				// Alright, this didn't work, so let's try again through the toast or by waiting.
-				if (timeout > 0)
-				{
-					// Wait for a user gesture to happen in the document (can work with kDocumentUserActivationRequired policy).
-					waitAutoStart(audioCtx, performance.now() + timeout, function ()
-					{
-						// Fail callback, could not auto-start.
-						showToast(buttonText, function ()
-						{
-							audioCtx.resume();
-						});
-					});
-				}
-				else
-				{
-					showToast(buttonText, function ()
-					{
-						audioCtx.resume();
-					});
-				}
-			}
+
+            if (audioCtx.state === "suspended")
+            {
+                // Alright, this didn't work, so let's try again through the toast or by waiting.
+                if (timeout > 0)
+                {
+                    // Wait for a user gesture to happen in the document (can work with kDocumentUserActivationRequired policy).
+                    waitAutoStart(audioCtx, performance.now() + timeout, function ()
+                    {
+                        // Fail callback, could not auto-start.
+                        showToast(buttonText, function ()
+                        {
+                            audioCtx.resume();
+                        });
+                    });
+                }
+                else
+                {
+                    showToast(buttonText, function ()
+                    {
+                        audioCtx.resume();
+                    });
+                }
+            }
 
             return audioCtx;
         }
@@ -68,7 +68,7 @@ if (typeof AudioContext !== "undefined")
             toast.innerHTML = buttonText;
             toast.className = "audioctx-resume-btn";
 
-            window.setTimeout(function()
+            window.setTimeout(function ()
             {
                 document.body.appendChild(toast);
 
@@ -79,26 +79,26 @@ if (typeof AudioContext !== "undefined")
                 });
             }, 0);
         }
-        
+
         function waitAutoStart(audioCtx, deadline, fail)
         {
             audioCtx.resume();
-			
-			if (audioCtx.state === "suspended")
-			{
-				// Still no good, keep trying if we have time.
-				if (performance.now() < deadline + 100)
-				{
-					window.setTimeout(function ()
-					{
-						waitAutoStart(audioCtx, deadline, fail);
-					}, 100);
-				}
-				else
-				{
-					fail();
-				}
-			}
+
+            if (audioCtx.state === "suspended")
+            {
+                // Still no good, keep trying if we have time.
+                if (performance.now() < deadline + 100)
+                {
+                    window.setTimeout(function ()
+                    {
+                        waitAutoStart(audioCtx, deadline, fail);
+                    }, 100);
+                }
+                else
+                {
+                    fail();
+                }
+            }
         }
 
         return AudioContext;
