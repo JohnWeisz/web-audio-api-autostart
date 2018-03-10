@@ -4,17 +4,16 @@ if (typeof AudioContext !== "undefined")
     {
         var buttonText = document.currentScript.getAttribute("data-btn-label") || "Start audio";
         var timeout = parseFloat(document.currentScript.getAttribute("data-timeout")) || 0;
-        var OriginalAudioContext = AudioContext;
+        var OriginalAudioContextCtor = AudioContext;
 
         // Replace the 'AudioContext' constructor with one that automatically calls the 'resume()' method.
         // If needed, this will show a "toast" message near the bottom of the screen.
         AudioContext = function ()
         {
-            let audioCtx = new OriginalAudioContext();
+            let audioCtx = new OriginalAudioContextCtor();
 
             if (audioCtx.state === "running")
             {
-                // Other browsers don't need this at this time, so we can return straight away, no initialization needed.
                 return audioCtx;
             }
             
@@ -27,6 +26,7 @@ if (typeof AudioContext !== "undefined")
                     // Alright, this didn't work, so let's try again through the toast or by waiting.
                     if (timeout > 0)
                     {
+                        // Wait for a user gesture to happen in the document (can work with kDocumentUserActivationRequired policy).
                         waitAutoStart(audioCtx, performance.now() + timeout, function ()
                         {
                             // Fail callback, could not auto-start.
