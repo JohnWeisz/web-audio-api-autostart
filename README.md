@@ -25,7 +25,6 @@ The button label can be customized by the `data-btn-label` attribute on the scri
 By default, the button will be shown near immediately if required. To attempt to wait until `AudioContext.resume()` can be called without a direct user-gesture, add the `data-timeout` attribute, specifying the wait duration in milliseconds:
 
 ```html
-<!-- wait 4 seconds -->
 <script src="autostart.js" data-timeout="4000"></script>
 ```
 
