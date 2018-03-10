@@ -1,6 +1,6 @@
 # web-audio-api-autostart
 
-[Beginning with Chrome 66](https://bugs.chromium.org/p/chromium/issues/detail?id=807017), AudioContext is initialized to the *suspended* state, and no audio processing is done until `AudioContext.resume()` is called as part of a user triggered action (such as in response to a trusted click event).
+[Beginning with Chrome 66](https://bugs.chromium.org/p/chromium/issues/detail?id=807017), if creating an AudioContext before the document has received a user gesture, the AudioContext is initialized to the *suspended* state, and no audio processing is done until `AudioContext.resume()` is called, either in response to a user-triggered action (such as a trusted click event), or after the document has received a user gesture, depending on autoplay policy. In other words, it's no longer possible to start an AudioContext completely automatically, and play sounds.
 
 This is a severe breaking change to several Web Audio API-based apps, and to work around this, you either need to ask the user to perform a meaningful action, such as a click, or wait until this happens.
 
