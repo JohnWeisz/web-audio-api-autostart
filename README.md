@@ -4,7 +4,7 @@
 
 This is a severe breaking change to several Web Audio API-based apps, and to work around this, you either need to ask the user to perform a meaningful action (such as a click), start chrome with `--autoplay-policy=no-user-gesture-required`, or wait until a gesture happens (again, depending on autoplay policy).
 
-`web-audio-api-autostart` simply injects these requirements into the construction of the AudioContext itself. It will try to auto-start the AudioContext when created, or show a simple and tasteful [snackbar](https://material.io/guidelines/components/snackbars-toasts.html) to let the user start (resume) the AudioContext playback.
+`web-audio-api-autostart` simply injects these requirements into the construction of the AudioContext itself. It will try to auto-start the AudioContext when created, or show a simple and tasteful, customizable [snackbar](https://material.io/guidelines/components/snackbars-toasts.html) to let the user start (resume) the AudioContext playback manually.
 
 ## How to use
 
