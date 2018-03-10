@@ -69,13 +69,16 @@ if (typeof AudioContext !== "undefined")
             toast.innerHTML = buttonText;
             toast.className = "audioctx-resume-btn";
 
-            document.body.appendChild(toast);
-
-            toast.addEventListener("click", function ()
+            window.setTimeout(function()
             {
-                callback();
-                document.body.removeChild(toast);
-            });
+                document.body.appendChild(toast);
+
+                toast.addEventListener("click", function ()
+                {
+                    callback();
+                    document.body.removeChild(toast);
+                });
+            }, 0);
         }
         
         function waitAutoStart(audioCtx, deadline, fail)
