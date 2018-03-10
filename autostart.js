@@ -27,14 +27,14 @@ if (typeof AudioContext !== "undefined")
                     // Alright, this didn't work, so let's try again through the toast or by waiting.
                     if (timeout > 0)
                     {
-                        waitAutoStart(audioCtx, function ()
+                        waitAutoStart(audioCtx, performance.now() + timeout, function ()
                         {
                             // Fail callback, could not auto-start.
                             showToast(buttonText, function ()
                             {
                                 audioCtx.resume();
                             });
-                        }, performance.now() + timeout);
+                        });
                     }
                     else
                     {
@@ -78,7 +78,7 @@ if (typeof AudioContext !== "undefined")
             });
         }
         
-        function waitAutoStart(audioCtx, fail, deadline)
+        function waitAutoStart(audioCtx, deadline, fail)
         {
             audioCtx.resume().then(function ()
             {
@@ -89,7 +89,7 @@ if (typeof AudioContext !== "undefined")
                     {
                         window.setTimeout(function ()
                         {
-                            tryAutoStart(audioCtx, fail, deadline);
+                            waitAutoStart(audioCtx, deadline, fail);
                         }, 100);
                     }
                     else
