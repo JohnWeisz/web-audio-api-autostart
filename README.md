@@ -2,9 +2,9 @@
 
 [Beginning with Chrome 66](https://bugs.chromium.org/p/chromium/issues/detail?id=807017), if creating an AudioContext before the document has received a user gesture, the AudioContext is initialized to the *suspended* state, and no audio processing is done until `AudioContext.resume()` is called, either in response to a user-triggered action (such as a trusted click event), or after the document has received a user gesture, depending on autoplay policy. In other words, it's no longer possible to start an AudioContext completely automatically to play sounds.
 
-This is a severe breaking change to several Web Audio API-based apps, and to work around this, you either need to ask the user to perform a meaningful action, such as a click, or wait until this happens.
+This is a severe breaking change to several Web Audio API-based apps, and to work around this, you either need to ask the user to perform a meaningful action, such as a click, or wait until this happens (again, depending on autoplay policy).
 
-If this is not feasible to implement in your app, you can use `web-audio-api-autostart`, which makes the AudioContext simply try to auto-start (auto-resume) itself when created, or show a simple and tasteful button to let the user start (resume) the AudioContext playback.
+`web-audio-api-autostart` simply injects these requirements into the construction of AudioContext. It will try to auto-start the AudioContext when created, or show a simple and tasteful [snackbar](https://material.io/guidelines/components/snackbars-toasts.html) to let the user start (resume) the AudioContext playback.
 
 ## How to use
 
