@@ -44,4 +44,4 @@ By default, the button will be shown near immediately if required. To attempt to
 
 ## Known Issues
 
-`web-audio-api-autostart` makes repeated attempts at calling `AudioContext.resume()` to try to avoid having to show the button. This might spam some warnings into the console.
+`web-audio-api-autostart` makes repeated attempts at calling `AudioContext.resume()` to try to avoid having to show the button. This might spam several warnings into the console, especially with the `data-timeout` attribute set.
