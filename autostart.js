@@ -21,33 +21,36 @@ if (typeof AudioContext !== "undefined")
             // need to show an initializer toast at all. Try doing this first.
             audioCtx.resume();
 
-            if (audioCtx.state === "suspended")
+            window.setTimeout(function ()
             {
-                // Alright, this didn't work, so let's try again through the toast or by waiting.
-                if (timeout > 0)
+                if (audioCtx.state === "suspended")
                 {
-                    // Wait for a user gesture to happen in the document (can work with kDocumentUserActivationRequired policy).
-                    waitAutoStart(audioCtx, performance.now() + timeout, function ()
+                    // Alright, this didn't work, so let's try again through the toast or by waiting.
+                    if (timeout > 0)
                     {
-                        // Fail callback, could not auto-start.
+                        // Wait for a user gesture to happen in the document (can work with kDocumentUserActivationRequired policy).
+                        waitAutoStart(audioCtx, performance.now() + timeout, function ()
+                        {
+                            // Fail callback, could not auto-start.
+                            showToast(buttonText, function ()
+                            {
+                                audioCtx.resume();
+                            });
+                        });
+                    }
+                    else
+                    {
                         showToast(buttonText, function ()
                         {
                             audioCtx.resume();
                         });
-                    });
+                    }
                 }
-                else
-                {
-                    showToast(buttonText, function ()
-                    {
-                        audioCtx.resume();
-                    });
-                }
-            }
+            }, 100);
 
             return audioCtx;
         }
-
+        
         function showToast(buttonText, callback)
         {
             var toast = document.createElement("div");
