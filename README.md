@@ -16,16 +16,12 @@ Include `autostart.js` through a script tag before your app code:
 
 ## Customize
 
+### Appearance
+
 The button label can be customized by the `data-btn-label` attribute on the script tag:
 
 ```html
 <script src="autostart.js" data-btn-label="Start"></script>
-```
-
-By default, the button will be shown near immediately if required. To attempt to wait until `AudioContext.resume()` can be called without a direct user-gesture (such as in the case of an autoplay policy that allows doing so after any arbitrary user-gesture has happened), add the `data-timeout` attribute, specifying the wait duration in milliseconds:
-
-```html
-<script src="autostart.js" data-timeout="4000"></script>
 ```
 
 The button appearance can be customized through the `audioctx-resume-btn` CSS class, for example:
@@ -37,3 +33,11 @@ The button appearance can be customized through the `audioctx-resume-btn` CSS cl
 ```
 
 Some properties need the `!important` keyword to override inline styles.
+
+### Behavior
+
+By default, the button will be shown near immediately if required. To attempt to wait until `AudioContext.resume()` can be called without a direct user-gesture (such as in the case of an autoplay policy that allows doing so after any arbitrary user-gesture has happened), add the `data-timeout` attribute, specifying the wait duration in milliseconds:
+
+```html
+<script src="autostart.js" data-timeout="4000"></script>
+```
