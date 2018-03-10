@@ -45,6 +45,7 @@ if (typeof AudioContext !== "undefined")
             toast.style.position = "absolute";
             toast.style.right = "0px";
             toast.style.bottom = "0px";
+            toast.style.zIndex = "999";
             toast.style.padding = "16px";
             toast.style.width = "100%";
             toast.style.textAlign = "center";
