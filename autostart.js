@@ -43,14 +43,18 @@ if (typeof AudioContext !== "undefined")
         {
             var toast = document.createElement("div");
             toast.style.position = "absolute";
-            toast.style.right = "10px";
-            toast.style.bottom = "10px";
-            toast.style.padding = "10px";
-            toast.style.maxWidth = "calc(100% - 20px)";
-            toast.style.background = "#333";
+            toast.style.right = "0px";
+            toast.style.bottom = "0px";
+            toast.style.padding = "16px";
+            toast.style.width = "100%";
+            toast.style.textAlign = "center";
+            toast.style.background = "rgb(60,60,60)";
+            toast.style.boxSizing = "border-box";
+            toast.style.fontWeight = "100";
             toast.style.color = "#eee";
-            toast.style.fontSize = "14px";
+            toast.style.fontSize = "16px";
             toast.style.boxShadow = "0 3px 6px rgba(0,0,0,0.4)";
+            toast.style.cursor = "pointer";
             toast.innerHTML = "Start audio";
             toast.className = "audioctx-resume-btn";
 
