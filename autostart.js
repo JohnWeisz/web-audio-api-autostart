@@ -3,6 +3,7 @@ if (typeof AudioContext !== "undefined")
     AudioContext = (function (AudioContext)
     {
         var buttonText = document.currentScript.getAttribute("data-btn-label") || "Start audio";
+        var timeout = parseFloat(document.currentScript.getAttribute("data-timeout")) || 0;
         var OriginalAudioContext = AudioContext;
 
         // Replace the 'AudioContext' constructor with one that automatically calls the 'resume()' method.
@@ -23,18 +24,26 @@ if (typeof AudioContext !== "undefined")
             {
                 if (audioCtx.state === "suspended")
                 {
-                    // Alright, this didn't work, so let's try again through the toast.
-                    showToast(buttonText, function ()
+                    // Alright, this didn't work, so let's try again through the toast or by waiting.
+                    if (timeout > 0)
                     {
-                        audioCtx.resume();
-                    });
+                        waitAutoStart(audioCtx, function ()
+                        {
+                            // Fail callback, could not auto-start.
+                            showToast(buttonText, function ()
+                            {
+                                audioCtx.resume();
+                            });
+                        }, performance.now() + timeout);
+                    }
+                    else
+                    {
+                        showToast(buttonText, function ()
+                        {
+                            audioCtx.resume();
+                        });
+                    }
                 }
-            }).catch(function ()
-            {
-                showToast(buttonText, function ()
-                {
-                    audioCtx.resume();
-                });
             });
 
             return audioCtx;
@@ -66,6 +75,28 @@ if (typeof AudioContext !== "undefined")
             {
                 callback();
                 document.body.removeChild(toast);
+            });
+        }
+        
+        function waitAutoStart(audioCtx, fail, deadline)
+        {
+            audioCtx.resume().then(function ()
+            {
+                if (audioCtx.state === "suspended")
+                {
+                    // Still no good, keep trying if we have time.
+                    if (performance.now() < deadline + 100)
+                    {
+                        window.setTimeout(function ()
+                        {
+                            tryAutoStart(audioCtx, fail, deadline);
+                        }, 100);
+                    }
+                    else
+                    {
+                        fail();
+                    }
+                }
             });
         }
 
