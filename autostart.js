@@ -2,6 +2,7 @@ if (typeof AudioContext !== "undefined")
 {
     AudioContext = (function (AudioContext)
     {
+        var buttonText = document.currentScript.getAttribute("data-btn-label") || "Start audio";
         var OriginalAudioContext = AudioContext;
 
         // Replace the 'AudioContext' constructor with one that automatically calls the 'resume()' method.
@@ -23,14 +24,14 @@ if (typeof AudioContext !== "undefined")
                 if (audioCtx.state === "suspended")
                 {
                     // Alright, this didn't work, so let's try again through the toast.
-                    showToast(function ()
+                    showToast(buttonText, function ()
                     {
                         audioCtx.resume();
                     });
                 }
             }).catch(function ()
             {
-                showToast(function ()
+                showToast(buttonText, function ()
                 {
                     audioCtx.resume();
                 });
@@ -39,7 +40,7 @@ if (typeof AudioContext !== "undefined")
             return audioCtx;
         }
 
-        function showToast(callback)
+        function showToast(buttonText, callback)
         {
             var toast = document.createElement("div");
             toast.style.position = "absolute";
@@ -56,7 +57,7 @@ if (typeof AudioContext !== "undefined")
             toast.style.fontSize = "16px";
             toast.style.boxShadow = "0 3px 6px rgba(0,0,0,0.4)";
             toast.style.cursor = "pointer";
-            toast.innerHTML = "Start audio";
+            toast.innerHTML = buttonText;
             toast.className = "audioctx-resume-btn";
 
             document.body.appendChild(toast);
